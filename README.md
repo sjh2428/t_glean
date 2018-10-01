@@ -1,4 +1,4 @@
-# t_glean
+# t_glean_New_Feature by jihyeok
 
 Used IDE, SDK : Eclipse Jee Photon(Apache Tomcat v9.0, JRE-10.0.2), Android Studio(Oreo 8.0), Android Emulator
 
