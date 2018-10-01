@@ -24,16 +24,16 @@ public class ChatUI extends AppCompatActivity {
 
 
 
-        findViewById(R.id.button1).setOnClickListener(new Button.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  EditText editText = (EditText) findViewById(R.id.editText1) ;
-                  String inputValue = editText.getText().toString() ;
-                  editText.setText("");
-                  refresh(inputValue,0);
-              }
-          }
-        );
+//        findViewById(R.id.button1).setOnClickListener(new Button.OnClickListener() {
+//              @Override
+//              public void onClick(View v) {
+//                  EditText editText = (EditText) findViewById(R.id.editText1) ;
+//                  String inputValue = editText.getText().toString() ;
+//                  editText.setText("");
+//                  refresh(inputValue,0);
+//              }
+//          }
+//        );
 
 
         findViewById(R.id.button2).setOnClickListener(new Button.OnClickListener() {
