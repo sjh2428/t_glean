@@ -22,13 +22,6 @@ public class ChatUI extends AppCompatActivity {
         m_ListView = (ListView) findViewById(R.id.listView1);
         m_ListView.setAdapter(m_Adapter);
 
-        m_Adapter.add("처음",0);
-        m_Adapter.add("이건 뭐지",1);
-        m_Adapter.add("대화창이다",0);
-        m_Adapter.add("2015/10/8",2);
-        m_Adapter.add("쿨쿨",1);
-        m_Adapter.add("쿨쿨쿨쿨",0);
-        m_Adapter.add("재미있게",1);
 
 
         findViewById(R.id.button1).setOnClickListener(new Button.OnClickListener() {
