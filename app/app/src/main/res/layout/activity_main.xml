@@ -7,16 +7,11 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:layout_centerInParent="true"
-        android:layout_width="700px"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
-
+        android:gravity="top"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent">
         <TextView
             android:id="@+id/txt_message"
             android:text="Name, Welcome!"
@@ -25,65 +20,146 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <LinearLayout
-            android:layout_gravity="center"
-            android:orientation="vertical"
+        <TextView
+            android:textAlignment="center"
+            android:text="Time Until Now"
+            android:textColor="#000000"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/btn_show_wtimes"
-                android:text="show worked times"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:textAlignment="center"
-                android:text="Time Until Now"
-                android:textColor="#000000"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/txt_time_unow"
-                android:textAlignment="center"
-                android:text="##H ##M ##S"
-                android:textColor="#000000"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/btn_reload_wtime"
-                android:text="reload wtime"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/txt_time_unow"
+            android:textAlignment="center"
+            android:text="##H ##M ##S"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_reload_wtime"
+            android:text="reload wtime"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_show_wtimes"
+            android:text="show wtimes"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/mainimg" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_alignParentLeft="true"
+        android:layout_width="500px"
+        android:layout_height="700px"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            >
             <LinearLayout
-                android:weightSum="3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ToggleButton
-                    android:id="@+id/workbtn"
-                    android:text="startwork"
-                    android:textOn="finishwork"
-                    android:textOff="startwork"
-                    android:layout_width="0dp"
+                android:layout_width="fill_parent"
+                android:id="@+id/im1"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                >
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                    <ListView
+                        android:id="@+id/listView1"
+                        android:listSelector="#00000000"
+                        android:cacheColorHint="#00000000"
+                        android:divider="#000000"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:transcriptMode="alwaysScroll"/>
+                </FrameLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#2F4F4F"
+                android:layout_below="@id/im1"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editText1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="메세지를 입력하세요"
+                    android:inputType="textMultiLine"
+                    android:layout_weight="3"
+                    android:maxLines="4" />
+
+                <!--<Button-->
+                <!--android:id="@+id/button1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="전송1" />-->
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:layout_weight="1"
-                    android:layout_height="100px" />
-                <ToggleButton
-                    android:id="@+id/lunchbtn"
-                    android:text="startlunch"
-                    android:textOn="finishlunch"
-                    android:textOff="startlunch"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="100px" />
-                <ToggleButton
-                    android:id="@+id/restbtn"
-                    android:text="startrest"
-                    android:textOn="finishrest"
-                    android:textOff="startrest"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="100px" />
+                    android:text="답변" />
+
             </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:gravity="bottom"
+        android:weightSum="3">
+
+        <ToggleButton
+            android:id="@+id/workbtn"
+            android:layout_width="0dp"
+            android:layout_height="100px"
+            android:layout_weight="1"
+            android:text="startwork"
+            android:textOff="startwork"
+            android:textOn="finishwork" />
+
+        <ToggleButton
+            android:id="@+id/lunchbtn"
+            android:layout_width="0dp"
+            android:layout_height="100px"
+            android:layout_weight="1"
+            android:text="startlunch"
+            android:textOff="startlunch"
+            android:textOn="finishlunch" />
+
+        <ToggleButton
+            android:id="@+id/restbtn"
+            android:layout_width="0dp"
+            android:layout_height="100px"
+            android:layout_weight="1"
+            android:text="startrest"
+            android:textOff="startrest"
+            android:textOn="finishrest" />
     </LinearLayout>
 
 </RelativeLayout>

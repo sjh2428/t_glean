@@ -1,17 +1,23 @@
 package project.oss.kr.t_glean;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import static project.oss.kr.t_glean.InputIP.SERVER_ADDRESS;
@@ -21,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     Button btn_show_wtimes, btn_reload_wtime;
     static String LoginWorker;
     ToggleButton workbtn, lunchbtn, restbtn;
+    ListView m_ListView;
+    CustomAdapter m_Adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         workbtn = (ToggleButton)findViewById(R.id.workbtn);
         lunchbtn = (ToggleButton)findViewById(R.id.lunchbtn);
         restbtn = (ToggleButton)findViewById(R.id.restbtn);
+
+
 
         Intent it = getIntent();
         LoginWorker = it.getStringExtra("LoginWorker");
@@ -104,6 +114,11 @@ public class MainActivity extends AppCompatActivity {
 
                             restbtn.setEnabled(true);
                             restbtn.setChecked(false);
+                            Date nd = new Date();
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                            refresh("startwork - " + sdf.format(nd),0);
+                            altshow();
                         }
                         else {
                             Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
@@ -124,6 +139,10 @@ public class MainActivity extends AppCompatActivity {
                             lunchbtn.setEnabled(false);
                             restbtn.setChecked(false);
                             restbtn.setEnabled(false);
+                            Date nd = new Date();
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                            refresh("finishwork - " + sdf.format(nd),0);
 
                             setWtime();
                         }
@@ -150,6 +169,10 @@ public class MainActivity extends AppCompatActivity {
                             //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
                             restbtn.setEnabled(false);
                             setWtime();
+                            Date nd = new Date();
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                            refresh("startlunch - " + sdf.format(nd),0);
                         }
                         else {
                             Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
@@ -168,6 +191,10 @@ public class MainActivity extends AppCompatActivity {
                             //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
                             restbtn.setEnabled(true);
                             setWtime();
+                            Date nd = new Date();
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                            refresh("finishlunch - " + sdf.format(nd),0);
                         }
                         else {
                             Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
@@ -192,6 +219,10 @@ public class MainActivity extends AppCompatActivity {
                             //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
                             lunchbtn.setEnabled(false);
                             setWtime();
+                            Date nd = new Date();
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                            refresh("startrest - " + sdf.format(nd),0);
                         }
                         else {
                             Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
@@ -210,6 +241,10 @@ public class MainActivity extends AppCompatActivity {
                             //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
                             lunchbtn.setEnabled(true);
                             setWtime();
+                            Date nd = new Date();
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                            refresh("finishrest - " + sdf.format(nd),0);
                         }
                         else {
                             Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
@@ -222,6 +257,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        m_Adapter = new CustomAdapter();
+
+        m_ListView = (ListView) findViewById(R.id.listView1);
+        m_ListView.setAdapter(m_Adapter);
+
+
+
+//        findViewById(R.id.button1).setOnClickListener(new Button.OnClickListener() {
+//              @Override
+//              public void onClick(View v) {
+//                  EditText editText = (EditText) findViewById(R.id.editText1) ;
+//                  String inputValue = editText.getText().toString() ;
+//                  editText.setText("");
+//                  refresh(inputValue,0);
+//              }
+//          }
+//        );
+
+
+        findViewById(R.id.button2).setOnClickListener(
+                new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText editText = (EditText) findViewById(R.id.editText1) ;
+                        String inputValue = editText.getText().toString() ;
+                        editText.setText("");
+                        refresh(inputValue,1);
+                        }
+                }
+        );
+
+    }
+
+    private void refresh (String inputValue, int _str) {
+        m_Adapter.add(inputValue,_str) ;
+        m_Adapter.notifyDataSetChanged();
     }
 
     public void setWtime() {
@@ -235,5 +306,52 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
         txt_time_unow.setText(sdf.format(new Date(result)));
+    }
+
+    public void altshow()
+    {
+        final List<String> ListItems = new ArrayList<>();
+        ListItems.add("매우 좋음");
+        ListItems.add("좋음");
+        ListItems.add("보통");
+        ListItems.add("짜증");
+        ListItems.add("매우 짜증");
+        final CharSequence[] items =  ListItems.toArray(new String[ ListItems.size()]);
+
+        final List SelectedItems  = new ArrayList();
+        int defaultItem = 0;
+        SelectedItems.add(defaultItem);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("AlertDialog Title");
+        builder.setSingleChoiceItems(items, defaultItem,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SelectedItems.clear();
+                        SelectedItems.add(which);
+                    }
+                });
+        builder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String msg="";
+
+                        if (!SelectedItems.isEmpty()) {
+                            int index = (int) SelectedItems.get(0);
+                            msg = ListItems.get(index);
+                        }
+                        Toast.makeText(getApplicationContext(),
+                                "Items Selected.\n"+ msg , Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
+        builder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        builder.show();
     }
 }
