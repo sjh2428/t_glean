@@ -14,6 +14,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edt_id, edt_pwd;
     Button btn_login;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,5 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 }

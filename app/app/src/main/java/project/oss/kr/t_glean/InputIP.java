@@ -12,6 +12,7 @@ public class InputIP extends AppCompatActivity {
     EditText insertip;
     Button submitip;
     static String SERVER_ADDRESS = "";
+    Button btn_dev;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,9 @@ public class InputIP extends AppCompatActivity {
         setContentView(R.layout.activity_input_ip);
         insertip = (EditText)findViewById(R.id.insertip);
         submitip = (Button)findViewById(R.id.submitip);
+        btn_dev = (Button)findViewById(R.id.bt_dev);
+        Intent it2 = getIntent();
+
 
         submitip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +42,14 @@ public class InputIP extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+            }
+        });
+
+        btn_dev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it2 = new Intent(InputIP.this, ChatUI.class);
+                startActivity(it2);
             }
         });
     }
