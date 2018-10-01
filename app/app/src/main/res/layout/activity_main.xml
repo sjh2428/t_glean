@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
+        android:layout_width="700px"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -25,59 +25,6 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <LinearLayout
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/startwork"
-                android:text="start work"
-                android:layout_width="200px"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/finishwork"
-                android:text="finish work"
-                android:enabled="false"
-                android:layout_width="200px"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/startlunch"
-                android:text="start lunch"
-                android:enabled="false"
-                android:layout_width="200px"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/finishlunch"
-                android:text="finish lunch"
-                android:enabled="false"
-                android:layout_width="200px"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/startrest"
-                android:text="start rest"
-                android:enabled="false"
-                android:layout_width="200px"
-                android:layout_height="wrap_content" />
-            <Button
-                android:id="@+id/finishrest"
-                android:text="finish rest"
-                android:enabled="false"
-                android:layout_width="200px"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
         <LinearLayout
             android:layout_gravity="center"
             android:orientation="vertical"
@@ -107,6 +54,35 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ToggleButton
+                    android:id="@+id/workbtn"
+                    android:text="startwork"
+                    android:textOn="finishwork"
+                    android:textOff="startwork"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100px" />
+                <ToggleButton
+                    android:id="@+id/lunchbtn"
+                    android:text="startlunch"
+                    android:textOn="finishlunch"
+                    android:textOff="startlunch"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100px" />
+                <ToggleButton
+                    android:id="@+id/restbtn"
+                    android:text="startrest"
+                    android:textOn="finishrest"
+                    android:textOff="startrest"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100px" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

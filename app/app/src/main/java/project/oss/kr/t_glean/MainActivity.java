@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -17,8 +18,9 @@ import static project.oss.kr.t_glean.InputIP.SERVER_ADDRESS;
 
 public class MainActivity extends AppCompatActivity {
     TextView txt_message, txt_time_unow;
-    Button startwork, finishwork, startlunch, finishlunch, startrest, finishrest, btn_show_wtimes, btn_reload_wtime;
+    Button btn_show_wtimes, btn_reload_wtime;
     static String LoginWorker;
+    ToggleButton workbtn, lunchbtn, restbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +28,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         txt_message = (TextView) findViewById(R.id.txt_message);
         txt_time_unow = (TextView) findViewById(R.id.txt_time_unow);
-        startwork = (Button) findViewById(R.id.startwork);
-        finishwork = (Button) findViewById(R.id.finishwork);
-        startlunch = (Button) findViewById(R.id.startlunch);
-        finishlunch = (Button) findViewById(R.id.finishlunch);
-        startrest = (Button) findViewById(R.id.startrest);
-        finishrest = (Button) findViewById(R.id.finishrest);
         btn_show_wtimes = (Button) findViewById(R.id.btn_show_wtimes);
         btn_reload_wtime = (Button) findViewById(R.id.btn_reload_wtime);
+        workbtn = (ToggleButton)findViewById(R.id.workbtn);
+        lunchbtn = (ToggleButton)findViewById(R.id.lunchbtn);
+        restbtn = (ToggleButton)findViewById(R.id.restbtn);
 
         Intent it = getIntent();
         LoginWorker = it.getStringExtra("LoginWorker");
         txt_message.setText(LoginWorker + ", Welcome!");
+        lunchbtn.setEnabled(false);
+        restbtn.setEnabled(false);
 
         try {
             int result1 = Integer.parseInt(new AccessServer().execute(SERVER_ADDRESS +
@@ -46,20 +47,24 @@ public class MainActivity extends AppCompatActivity {
                 //Toast.makeText(MainActivity.this, "오늘 출근 이력 없음", Toast.LENGTH_SHORT).show();
                 if (result1 >= 102) {
                     //Toast.makeText(MainActivity.this, "퇴근 안찍었네", Toast.LENGTH_SHORT).show();
-                    startlunch.setEnabled(true);
-                    startrest.setEnabled(true);
-                    startwork.setEnabled(false);
-                    finishwork.setEnabled(true);
+                    lunchbtn.setEnabled(true);
+                    lunchbtn.setChecked(false);
+
+                    restbtn.setEnabled(true);
+                    restbtn.setChecked(false);
+
+                    workbtn.setChecked(true);
+
                     if (result1 == 104) {
                         //Toast.makeText(MainActivity.this, "점심 끝 안찍고 퇴근 안찍음", Toast.LENGTH_SHORT).show();
-                        startlunch.setEnabled(false);
-                        finishlunch.setEnabled(true);
-                        startrest.setEnabled(false);
+                        lunchbtn.setChecked(true);
+
+                        restbtn.setEnabled(false);
                     } else if (result1 == 105) {
                         //Toast.makeText(MainActivity.this, "휴식 끝 안찍고 퇴근 안찍음", Toast.LENGTH_SHORT).show();
-                        startrest.setEnabled(false);
-                        finishrest.setEnabled(true);
-                        startlunch.setEnabled(false);
+                        restbtn.setChecked(true);
+
+                        lunchbtn.setEnabled(false);
                     }
                 }
             }
@@ -68,147 +73,6 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e) {
             e.printStackTrace();
         }
-
-        startwork.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    String result = new AccessServer().execute(SERVER_ADDRESS + "/rwlog?wname=" +
-                            URLEncoder.encode(LoginWorker, "UTF-8") + "&btnName=startwork").get();
-                    if(result.equals("200")) {
-                        //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
-                        startlunch.setEnabled(true);
-                        startrest.setEnabled(true);
-                        startwork.setEnabled(false);
-                        finishwork.setEnabled(true);
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
-                    }
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-                //Toast.makeText(MainActivity.this, LoginWorker + ", startwork!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        finishwork.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    String result = new AccessServer().execute(SERVER_ADDRESS + "/rwlog?wname=" +
-                            URLEncoder.encode(LoginWorker, "UTF-8") + "&btnName=finishwork").get();
-                    if(result.equals("200")) {
-                        //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
-                        startlunch.setEnabled(false);
-                        finishlunch.setEnabled(false);
-                        startrest.setEnabled(false);
-                        finishrest.setEnabled(false);
-                        finishwork.setEnabled(false);
-                        startwork.setEnabled(true);
-                        setWtime();
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
-                    }
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-                //Toast.makeText(MainActivity.this, LoginWorker + ", finishwork!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        startlunch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    String result = new AccessServer().execute(SERVER_ADDRESS + "/rwlog?wname=" +
-                            URLEncoder.encode(LoginWorker, "UTF-8") + "&btnName=startlunch").get();
-                    if(result.equals("200")) {
-                        //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
-                        startlunch.setEnabled(false);
-                        finishlunch.setEnabled(true);
-                        startrest.setEnabled(false);
-                        setWtime();
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
-                    }
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-                //Toast.makeText(MainActivity.this, LoginWorker + ", startlunch!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        finishlunch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    String result = new AccessServer().execute(SERVER_ADDRESS + "/rwlog?wname=" +
-                            URLEncoder.encode(LoginWorker, "UTF-8") + "&btnName=finishlunch").get();
-                    if(result.equals("200")) {
-                        //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
-                        finishlunch.setEnabled(false);
-                        startlunch.setEnabled(true);
-                        startrest.setEnabled(true);
-                        setWtime();
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
-                    }
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-                //Toast.makeText(MainActivity.this, LoginWorker + ", finishlunch!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        startrest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    String result = new AccessServer().execute(SERVER_ADDRESS + "/rwlog?wname=" +
-                            URLEncoder.encode(LoginWorker, "UTF-8") + "&btnName=startrest").get();
-                    if(result.equals("200")) {
-                        //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
-                        startrest.setEnabled(false);
-                        finishrest.setEnabled(true);
-                        startlunch.setEnabled(false);
-                        setWtime();
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
-                    }
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-                //Toast.makeText(MainActivity.this, LoginWorker + ", startrest!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        finishrest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    String result = new AccessServer().execute(SERVER_ADDRESS + "/rwlog?wname=" +
-                            URLEncoder.encode(LoginWorker, "UTF-8") + "&btnName=finishrest").get();
-                    if(result.equals("200")) {
-                        //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
-                        finishrest.setEnabled(false);
-                        startrest.setEnabled(true);
-                        startlunch.setEnabled(true);
-                        setWtime();
-                    }
-                    else {
-                        Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
-                    }
-                }catch (Exception e) {
-                    e.printStackTrace();
-                }
-                //Toast.makeText(MainActivity.this, LoginWorker + ", finishrest!", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         btn_show_wtimes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,6 +88,140 @@ public class MainActivity extends AppCompatActivity {
                 setWtime();
             }
         });
+
+        workbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(workbtn.isChecked()) {
+                    System.out.println("startwork");
+                    try {
+                        String result = new AccessServer().execute(SERVER_ADDRESS + "/rwlog?wname=" +
+                                URLEncoder.encode(LoginWorker, "UTF-8") + "&btnName=startwork").get();
+                        if(result.equals("200")) {
+                            //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
+                            lunchbtn.setEnabled(true);
+                            lunchbtn.setChecked(false);
+
+                            restbtn.setEnabled(true);
+                            restbtn.setChecked(false);
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //Toast.makeText(MainActivity.this, LoginWorker + ", startwork!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    System.out.println("finishwork");
+                    try {
+                        String result = new AccessServer().execute(SERVER_ADDRESS + "/rwlog?wname=" +
+                                URLEncoder.encode(LoginWorker, "UTF-8") + "&btnName=finishwork").get();
+                        if(result.equals("200")) {
+                            //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
+                            lunchbtn.setChecked(false);
+                            lunchbtn.setEnabled(false);
+                            restbtn.setChecked(false);
+                            restbtn.setEnabled(false);
+
+                            setWtime();
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //Toast.makeText(MainActivity.this, LoginWorker + ", finishwork!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        lunchbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(lunchbtn.isChecked()) {
+                    System.out.println("startlunch");
+                    try {
+                        String result = new AccessServer().execute(SERVER_ADDRESS + "/rwlog?wname=" +
+                                URLEncoder.encode(LoginWorker, "UTF-8") + "&btnName=startlunch").get();
+                        if(result.equals("200")) {
+                            //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
+                            restbtn.setEnabled(false);
+                            setWtime();
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //Toast.makeText(MainActivity.this, LoginWorker + ", startlunch!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    System.out.println("finishlunch");
+                    try {
+                        String result = new AccessServer().execute(SERVER_ADDRESS + "/rwlog?wname=" +
+                                URLEncoder.encode(LoginWorker, "UTF-8") + "&btnName=finishlunch").get();
+                        if(result.equals("200")) {
+                            //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
+                            restbtn.setEnabled(true);
+                            setWtime();
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //Toast.makeText(MainActivity.this, LoginWorker + ", finishlunch!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        restbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(restbtn.isChecked()) {
+                    System.out.println("startrest");
+                    try {
+                        String result = new AccessServer().execute(SERVER_ADDRESS + "/rwlog?wname=" +
+                                URLEncoder.encode(LoginWorker, "UTF-8") + "&btnName=startrest").get();
+                        if(result.equals("200")) {
+                            //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
+                            lunchbtn.setEnabled(false);
+                            setWtime();
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //Toast.makeText(MainActivity.this, LoginWorker + ", startrest!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    System.out.println("finishrest");
+                    try {
+                        String result = new AccessServer().execute(SERVER_ADDRESS + "/rwlog?wname=" +
+                                URLEncoder.encode(LoginWorker, "UTF-8") + "&btnName=finishrest").get();
+                        if(result.equals("200")) {
+                            //Toast.makeText(MainActivity.this, "Success to input to log or db!", Toast.LENGTH_SHORT).show();
+                            lunchbtn.setEnabled(true);
+                            setWtime();
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Ask Administrator!", Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //Toast.makeText(MainActivity.this, LoginWorker + ", finishrest!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     public void setWtime() {

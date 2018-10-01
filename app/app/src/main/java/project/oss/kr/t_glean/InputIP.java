@@ -30,7 +30,7 @@ public class InputIP extends AppCompatActivity {
                 if(insertip.getText().equals(""))
                     Toast.makeText(InputIP.this, "Input IP!", Toast.LENGTH_SHORT).show();
                 else {
-                    SERVER_ADDRESS = "http://" + insertip.getText().toString() + ":8080/T_glean_server";
+                    SERVER_ADDRESS = "http://" + insertip.getText().toString() + ":8080/T_glean_server2";
                     try {
                         String result = new AccessServer().execute(SERVER_ADDRESS + "/csver").get();
                         if(result.equals("1")) {
