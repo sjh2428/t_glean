@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txt_message"
+            android:text="Name, Welcome!"
+            android:textSize="40px"
+            android:textColor="#000000"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/startwork"
+                android:text="start work"
+                android:layout_width="200px"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/finishwork"
+                android:text="finish work"
+                android:enabled="false"
+                android:layout_width="200px"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/startlunch"
+                android:text="start lunch"
+                android:enabled="false"
+                android:layout_width="200px"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/finishlunch"
+                android:text="finish lunch"
+                android:enabled="false"
+                android:layout_width="200px"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/startrest"
+                android:text="start rest"
+                android:enabled="false"
+                android:layout_width="200px"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/finishrest"
+                android:text="finish rest"
+                android:enabled="false"
+                android:layout_width="200px"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_show_wtimes"
+                android:text="show worked times"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textAlignment="center"
+                android:text="Time Until Now"
+                android:textColor="#000000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/txt_time_unow"
+                android:textAlignment="center"
+                android:text="##H ##M ##S"
+                android:textColor="#000000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btn_reload_wtime"
+                android:text="reload wtime"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
