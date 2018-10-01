@@ -1,4 +1,4 @@
-# t_glean_New_Feature by jihyeok
+# t_glean_New_Feature by jihyeok I need merge
 
 Used IDE, SDK : Eclipse Jee Photon(Apache Tomcat v9.0, JRE-10.0.2), Android Studio(Oreo 8.0), Android Emulator
 
