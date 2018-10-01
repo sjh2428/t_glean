@@ -21,7 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WtimesActivity"></activity>
+        <activity android:name=".WtimesActivity" />
+        <activity android:name=".ChatUI"></activity>
     </application>
 
 </manifest>
